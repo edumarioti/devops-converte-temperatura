@@ -1,45 +1,47 @@
-# This is a basic workflow to help you get started with Actions
+# This is a basic workflow to help you get started wth Actions
 
 name: CI
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the $default-branch branch
-  push:
-    branches: [ $default-branch ]
+# Controls wheb the workflow will run
 
+on:
+
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# A workflow run is made up of one more jobs that can runsequentially or in parellel
 jobs:
   # This workflow contains a single job called "build"
   CI:
-    # The type of runner that the job will run on
+    # The type of runner that t: job will run on
     runs-on: ubuntu-latest
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       
-      - name: Setup do NodeJS
+      - name: Setup do Node.js
         uses: actions/setup-node@v3.6.0
-        with: 
-          node-version: 19.3.0
-          
-      - name: Instalação do Mocha e dos pacotes para teste
-        run: |
+        with:
+          node-version: 18.14.2
+      
+      - name: Instalção do Mocha e pacotes para teste
+        run:
           cd src;
           npm install -g mocha;
           npm install
-          
-      - name: Execução do Teste
+      
+      - name: Execução do teste
         run: mocha src/test/convert.js
-        
-      - name: Autenticação no DockerHub 
-        # You may pin to the exact commit or the version.
-        # uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+      
+      - name: Autenticação no Docker Hub
         uses: docker/login-action@v2.1.0
         with:
             username: ${{secrets.DOCKERHUB_USER}} # Você deve criar os secrets na sua conta do github 
@@ -49,7 +51,7 @@ jobs:
       - name: Construção da imagem Docker
         # You may pin to the exact commit or the version.
         # uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v4.0.0
         with:
           context: ./src
           file: ./src/Dockerfile
