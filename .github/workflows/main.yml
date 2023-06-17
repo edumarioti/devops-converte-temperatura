@@ -57,5 +57,5 @@ jobs:
           file: ./src/Dockerfile
           push: true
           tags: |
-            edumarioti/devops-converte-temperatura:${{github.run_number}}
-            edumarioti/devops-converte-temperatura:latest
+            eduardomarioti/devops-converte-temperatura:${{github.run_number}}
+            eduardomarioti/devops-converte-temperatura:latest
